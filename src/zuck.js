@@ -285,46 +285,29 @@
       template: {
         timelineItem (itemData) {
           return `<div class="story moment-wraper ${get(itemData, 'seen') === true ? 'seen' : ''}">
-          <div class="modal-body-inner">
-             <div class="row m-0">
-                <div class="col-xl-4 col-md-4 col-sm-4 p-0">
-                   <div class="main-ttl">Recent</div>
-                   <div class="user-moment-list">
-                      <div class="user-moment-wraper align-items-center">
-                         <a class="item-link" href="${get(itemData, 'link')}">
-                            ${get(itemData, 'photo') ? `
-                            <div class="item-preview user-images">
-                               <img lazy="eager" src="${
-                                  (option('avatars') || !get(itemData, 'currentPreview'))
-                                  ? get(itemData, 'photo')
-                                  : get(itemData, 'currentPreview')
-                                  }" />
-                            </div>
-                            ` : ` 
-                            <div class="user-dp-img item-preview ${get(itemData,'colorGradient')}">
-                               <label>${get(itemData,'name').charAt(0).toLowerCase()}</label>
-                            </div>
-                            `}
-                            <div class="info user-moment-detail" itemProp="author" itemScope itemType="http://schema.org/Person">
-                               <div class="name user-name" itemProp="name">${get(itemData, 'name')}</div>
-                               <div class="time user-date">${timeAgoTimeline(get(itemData, 'lastUpdated'))}</div>
-                            </div>
-                         </a>
-                      </div>
-                   </div>
-                </div>
-                <div class="col-xl-8 col-md-8 col-sm-8 p-0">
-                   <div class="main-ttl">
-                   </div>
-                   <div class="moments-update">
-                      <img class="pb-3" src="../../../assets/images/loader.svg">
-                      <label>Click on contact to view their status updates</label>
-                   </div>
-                </div>
-             </div>
+          <div class="user-moment-wraper align-items-center">
+            <a class="item-link" href="${get(itemData, 'link')}">
+              ${get(itemData, 'photo') ? `
+              <div class="item-preview user-images">
+                <img lazy="eager" src="${
+                        (option('avatars') || !get(itemData, 'currentPreview'))
+                        ? get(itemData, 'photo')
+                        : get(itemData, 'currentPreview')
+                        }" />
+              </div>
+              ` : `
+              <div class="user-dp-img item-preview ${get(itemData,'colorGradient')}">
+                <label>${get(itemData,'name').charAt(0).toLowerCase()}</label>
+              </div>
+              `}
+              <div class="info user-moment-detail" itemProp="author" itemScope itemType="http://schema.org/Person">
+                <div class="name user-name" itemProp="name">${get(itemData, 'name')}</div>
+                <div class="time user-date">${timeAgoTimeline(get(itemData, 'lastUpdated'))}</div>
+              </div>
+            </a>
           </div>
           <ul class="items"></ul>
-       </div>`;
+        </div>`;
         },
 
         timelineStoryItem (itemData) {
