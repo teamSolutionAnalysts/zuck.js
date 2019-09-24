@@ -284,24 +284,47 @@
       },
       template: {
         timelineItem (itemData) {
-          return `
-            <div class="story ${get(itemData, 'seen') === true ? 'seen' : ''}">
-              <a class="item-link" href="${get(itemData, 'link')}">
-                <span class="item-preview">
-                  <img lazy="eager" src="${
-                    (option('avatars') || !get(itemData, 'currentPreview'))
-                    ? get(itemData, 'photo')
-                    : get(itemData, 'currentPreview')
-                  }" />
-                </span>
-                <span class="info" itemProp="author" itemScope itemType="http://schema.org/Person">
-                  <strong class="name" itemProp="name">${get(itemData, 'name')}</strong>
-                  <span class="time">${get(itemData, 'lastUpdatedAgo')}</span>
-                </span>
-              </a>
-              
-              <ul class="items"></ul>
-            </div>`;
+          return `<div class="story moment-wraper ${get(itemData, 'seen') === true ? 'seen' : ''}">
+          <div class="modal-body-inner">
+             <div class="row m-0">
+                <div class="col-xl-4 col-md-4 col-sm-4 p-0">
+                   <div class="main-ttl">Recent</div>
+                   <div class="user-moment-list">
+                      <div class="user-moment-wraper align-items-center">
+                         <a class="item-link" href="${get(itemData, 'link')}">
+                            ${get(itemData, 'photo') ? `
+                            <div class="item-preview user-images">
+                               <img lazy="eager" src="${
+                                  (option('avatars') || !get(itemData, 'currentPreview'))
+                                  ? get(itemData, 'photo')
+                                  : get(itemData, 'currentPreview')
+                                  }" />
+                            </div>
+                            ` : ` 
+                            <div class="user-dp-img item-preview ${get(itemData,'colorGradient')}">
+                               <label>${get(itemData,'name').charAt(0).toLowerCase()}</label>
+                            </div>
+                            `}
+                            <div class="info user-moment-detail" itemProp="author" itemScope itemType="http://schema.org/Person">
+                               <div class="name user-name" itemProp="name">${get(itemData, 'name')}</div>
+                               <div class="time user-date">${timeAgoTimeline(get(itemData, 'lastUpdated'))}</div>
+                            </div>
+                         </a>
+                      </div>
+                   </div>
+                </div>
+                <div class="col-xl-8 col-md-8 col-sm-8 p-0">
+                   <div class="main-ttl">
+                   </div>
+                   <div class="moments-update">
+                      <img class="pb-3" src="../../../assets/images/loader.svg">
+                      <label>Click on contact to view their status updates</label>
+                   </div>
+                </div>
+             </div>
+          </div>
+          <ul class="items"></ul>
+       </div>`;
         },
 
         timelineStoryItem (itemData) {
@@ -321,9 +344,19 @@
                       <div class="left">
                         ${option('backButton') ? '<a class="back">&lsaquo;</a>' : ''}
 
-                        <span class="item-preview">
-                          <img lazy="eager" class="profilePhoto" src="${get(storyData, 'photo')}" />
-                        </span>
+                        ${get(storyData, 'photo') ? `
+                            <div class="item-preview user-images">
+                               <img lazy="eager" src="${
+                                  (option('avatars') || !get(storyData, 'currentPreview'))
+                                  ? get(storyData, 'photo')
+                                  : get(storyData, 'currentPreview')
+                                  }" />
+                            </div>
+                            ` : ` 
+                            <div class="user-dp-img ${get(storyData,'colorGradient')}">
+                               <label>${get(storyData,'name').charAt(0).toLowerCase()}</label>
+                            </div>
+                            `}
 
                         <div class="info">
                           <strong class="name">${get(storyData, 'name')}</strong>
@@ -1024,7 +1057,7 @@
         zuck.data[storyId].link = story.querySelector('.item-link').getAttribute('href');
         zuck.data[storyId].lastUpdated = story.getAttribute('data-last-updated');
         zuck.data[storyId].seen = seen;
-
+        zuck.data[storyId].colorGradient =  story.getAttribute('data-colorGradient');
         if(!zuck.data[storyId].items) {
           zuck.data[storyId].items = [];
           zuck.data[storyId].noItems = true;
@@ -1213,6 +1246,7 @@
       }
 
       story.setAttribute('data-id', storyId);
+      story.setAttribute('data-colorGradient', get(data, 'colorGradient'));
       story.setAttribute('data-photo', get(data, 'photo'));
       story.setAttribute('data-last-updated', get(data, 'lastUpdated'));
 
@@ -1388,14 +1422,15 @@
 
 
   /* Helpers */
-  ZuckJS.buildTimelineItem = (id, photo, name, link, lastUpdated, items) => {
+  ZuckJS.buildTimelineItem = (id, photo, name, link, lastUpdated, items, colorGradient) => {
     let timelineItem = {
       id,
       photo,
       name,
       link,
       lastUpdated,
-      items: []
+      items: [],
+      colorGradient
     };
 
     each(items, (itemIndex, itemArgs) => {
@@ -1418,7 +1453,21 @@
       time
     };
   };
-
+  const timeAgoTimeline = function (date) {
+    const times = [["second", 1], ["minute", 60], ["hour", 3600], ["day", 86400], ["week", 604800], ["month", 2592000], ["year", 31536000]];
+    const NOW = new Date();
+    var diff = Math.round((NOW - new Date(date)) / 1000)
+    for (var t = 0; t < times.length; t++) {
+        if (diff < times[t][1]) {
+            if (t == 0) {
+                return "Just now"
+            } else {
+                diff = Math.round(diff / times[t - 1][1])
+                return diff + " " + times[t - 1][0] + (diff == 1?" ago":"s ago")
+            }
+        }
+    }
+    };
   /* Legacy code */
   ZuckJS.buildItem = ZuckJS.buildStoryItem;
 
