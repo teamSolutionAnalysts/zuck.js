@@ -285,8 +285,8 @@
       template: {
         timelineItem (itemData) {
           return `<div class="story moment-wraper ${get(itemData, 'seen') === true ? 'seen' : ''}">
-          <div class="user-moment-wraper align-items-center">
-            <a class="item-link" href="${get(itemData, 'link')}">
+          <div class="user-moment-wraper">
+            <a class="item-link d-flex align-items-center" href="${get(itemData, 'link')}">
               ${get(itemData, 'photo') ? `
               <div class="item-preview user-images">
                 <img lazy="eager" src="${
