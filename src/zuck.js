@@ -350,7 +350,7 @@
                       <div class="right">
                         <span class="time">${get(currentStoryItem, 'timeAgo')}</span>
                         <span class="loading"></span>
-                        <a class="close" tabIndex="2">&times;</a>
+                        <img src="assets/images/close-btn.svg" tabIndex="2" class="hovera" style="height:40px;width:40px">
                       </div>
                     </div>
 
