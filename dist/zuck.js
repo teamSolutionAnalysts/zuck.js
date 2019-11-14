@@ -414,28 +414,37 @@
                 modalZuckContainer.style.display = 'none';
                 modalZuckContainer.setAttribute('tabIndex', '1');
 
+                const _submitUserInput = function _submitUserInput(_ref) {
+                  const userInputElem = query('#zuck-modal .viewing .item.active .user-input');    
+                    if (userInputElem.value.trim() !== '') {
+                          var storyViewer = query('#zuck-modal .viewing');
+                          // console.log(storyViewer.getAttribute('data-story-id'));
+                          var currentSlideIndex = storyViewer.querySelector('.item.active').getAttribute('data-index');
+                          const currentDataItem = zuck.data.filter(eachData => {
+                              return eachData.id == storyViewer.getAttribute('data-story-id');
+                          })[0];
+                          if (currentDataItem && currentSlideIndex >= 0) {
+                              option('callbacks', 'onUserInputSubmit')(storyViewer.getAttribute('data-story-id'), currentDataItem.items[currentSlideIndex]['id'],userInputElem.value);
+                          }
+                          // option('callbacks', 'onUserInputSubmit')('storyId', _ref.target.value);
+                          userInputElem.value = '';
+                          zuck.startItem();
+                  }
+                }
+
+                modalZuckContainer.onmousedown = function(_ref) {
+                  console.log(_ref.target.getAttribute('id') == 'replyMomentSubmit');
+                  _ref.target.getAttribute('id') == 'replyMomentSubmit' &&  _submitUserInput(_ref);
+                };
                 modalZuckContainer.onkeyup = function(_ref) {
                     var keyCode = _ref.keyCode;
                     var code = keyCode;
                     if (_ref.target.classList.value.indexOf('user-input') > -1 && _ref.target.value.trim() !== '') {
                         if (code === 13) {
-                            var storyViewer = query('#zuck-modal .viewing');
-                            // console.log(storyViewer.getAttribute('data-story-id'));
-                            var currentSlideIndex = storyViewer.querySelector('.item.active').getAttribute('data-index');
-                            const currentDataItem = zuck.data.filter(eachData => {
-                                return eachData.id == storyViewer.getAttribute('data-story-id');
-                            })[0];
-                            if (currentDataItem && currentSlideIndex >= 0) {
-                                option('callbacks', 'onUserInputSubmit')(storyViewer.getAttribute('data-story-id'), currentDataItem.items[currentSlideIndex]['id'], _ref.target.value);
-                            }
-                            // option('callbacks', 'onUserInputSubmit')('storyId', _ref.target.value);
-                            _ref.target.value = '';
-                            zuck.startItem();
+                          _submitUserInput(_ref);
                         }
                         return;
                     }
-
-
                     if (code === 27) {
                         modal.close();
                     } else if (code === 13 || code === 32) {
