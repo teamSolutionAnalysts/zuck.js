@@ -286,6 +286,7 @@
                     return `<a href="${get(itemData, 'src')}"
                       data-link="${get(itemData, 'link')}"
                       data-linkText="${get(itemData, 'linkText')}"
+                      data-text="${get(itemData, 'text')}"
                       data-time="${get(itemData, 'time')}"
                       data-type="${get(itemData, 'type')}"
                       data-length="${get(itemData, 'length')}">
@@ -359,8 +360,31 @@
                       get(item, 'type') === 'video' 
                       ? `<video class="media" muted webkit-playsinline playsinline preload="auto" src="${get(item, 'src')}" ${get(item, 'type')}></video>
                         <b class="tip muted">${option('language', 'unmute')}</b>` 
-                      : `<img loading="auto" class="media" src="${get(item, 'src')}" ${get(item, 'type')} />                     
-                    `}
+                      : ``
+                    }
+                    ${
+                        get(item, 'type') === 'image' 
+                        ? `<img loading="auto" class="media" src="${get(item, 'src')}" ${get(item, 'type')} />` 
+                        : ``                   
+                    }
+                    ${
+                        get(item, 'type') === 'text' 
+                        ? `<div class="text-moment-bg" style=" height: 100%;
+                        position: absolute;
+                        left: 50%;
+                        -webkit-transform: translateX(-50%);
+                        transform: translateX(-50%);
+                        margin: auto;
+                        background-color: gray;
+                        top: 0;
+                        width: 35%;">
+                        <div class="text-moment-status-txt">
+                        <p style="color:white" class="text-moment">${get(item, 'text')} </p>                        
+                        </div>
+
+                        </div>` 
+                        : ``                    
+                    }
                     ${
                       get(item, 'link') 
                       ? `<a class="tip link" href="${get(item, 'link')}" rel="noopener" target="_blank">
@@ -973,6 +997,7 @@
                         time: a.getAttribute('data-time'),
                         link: a.getAttribute('data-link'),
                         linkText: a.getAttribute('data-linkText'),
+                        text: a.getAttribute('data-text'),
                         preview: img.getAttribute('src')
                     });
                 });
@@ -1373,7 +1398,6 @@
             timeline.className += " stories ".concat(avatars, " ").concat(list, " ").concat("".concat(option('skin')).toLowerCase());
             return zuck;
         };
-
         return init();
     };
     /* Helpers */
@@ -1395,7 +1419,7 @@
         return timelineItem;
     };
 
-    ZuckJS.buildStoryItem = function(id, type, length, src, preview, link, linkText, seen, time) {
+    ZuckJS.buildStoryItem = function(id, type, length, src, preview, link, linkText, seen, time,text) {
         return {
             id: id,
             type: type,
@@ -1405,7 +1429,8 @@
             link: link,
             linkText: linkText,
             seen: seen,
-            time: time
+            time: time,
+            text: text,
         };
     };
     /* Legacy code */
