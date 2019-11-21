@@ -369,19 +369,10 @@
                     }
                     ${
                         get(item, 'type') === 'text' 
-                        ? `<div class="text-moment-bg" style=" height: 100%;
-                        position: absolute;
-                        left: 50%;
-                        -webkit-transform: translateX(-50%);
-                        transform: translateX(-50%);
-                        margin: auto;
-                        background-color: gray;
-                        top: 0;
-                        width: 35%;">
+                        ? `<div class="text-moment-bg">
                         <div class="text-moment-status-txt">
                         <p style="color:white" class="text-moment">${get(item, 'text')} </p>                        
                         </div>
-
                         </div>` 
                         : ``                    
                     }
