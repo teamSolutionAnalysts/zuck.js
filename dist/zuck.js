@@ -323,7 +323,7 @@
                       <div class="right">
                         <span class="time">${get(currentStoryItem, 'timeAgo')}</span>
                         <span class="loading"></span>
-                        <img src="assets/images/close-btn.svg" tabIndex="2" class="hovera close" style="height:40px;width:40px">
+                        <img src="assets/images/cancel-white.svg" tabIndex="2" class="hovera close" style="height:40px;width:40px">
                       </div>
 
                     </div>
@@ -385,7 +385,7 @@
                     }
                     <div class="moment-reply">
                       <div class="moment-reply-wraper">
-                        <input type=\"text\" placeholder=\"Enter Reply..."\ class=\"user-input\"> 
+                        <input type="text" placeholder="Enter Reply.." class=\"user-input\"> 
                         <img src="assets/images/img_chat_send.svg" id="replyMomentSubmit">
                       </div>                        
                     </div>
@@ -448,7 +448,6 @@
                 }
 
                 modalZuckContainer.onmousedown = function(_ref) {
-                  console.log(_ref.target.getAttribute('id') == 'replyMomentSubmit');
                   _ref.target.getAttribute('id') == 'replyMomentSubmit' &&  _submitUserInput(_ref);
                 };
                 modalZuckContainer.onkeyup = function(_ref) {
@@ -846,6 +845,7 @@
 
             var bindUserClickEvents = function bindUserClickEvents() {
                 document.querySelectorAll('.user-input').forEach((elem) => {
+                    // console.log(elem);
                     var handleStopEvent = function handleStopEvent() {
                         zuck.stopItem();
                     }
