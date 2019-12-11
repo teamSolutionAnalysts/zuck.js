@@ -323,7 +323,7 @@
                       <div class="right">
                         <span class="time">${get(currentStoryItem, 'timeAgo')}</span>
                         <span class="loading"></span>
-                        <img src="assets/images/cancel-white.svg" tabIndex="2" class="hovera close" style="height:40px;width:40px">
+                        <img src="assets/images/cancel-white.svg" tabIndex="2" class="hovera close" style="height:60px;width:40px;z-index: 9999999;">
                       </div>
 
                     </div>
@@ -347,7 +347,7 @@
                     return `<span 
                     class="${currentIndex === index ? 'active' : ''} ${get(item, 'seen') === true ? 'seen' : ''}"
                     data-index="${index}" data-item-id="${get(item, 'id')}">
-                      <b style="animation-duration:${get(item, 'length') === '' ? '5' : get(item, 'length')}s"></b>
+                      <b style="animation-duration:${get(item, 'length') === '' ? '5000' : get(item, 'length')}s"></b>
                   </span>`;
                 },
 
