@@ -347,7 +347,7 @@
                     return `<span 
                     class="${currentIndex === index ? 'active' : ''} ${get(item, 'seen') === true ? 'seen' : ''}"
                     data-index="${index}" data-item-id="${get(item, 'id')}">
-                      <b style="animation-duration:${get(item, 'length') === '' ? '5000' : get(item, 'length')}s"></b>
+                      <b style="animation-duration:${get(item, 'length') === '' ? '5' : get(item, 'length')}s"></b>
                   </span>`;
                 },
 
